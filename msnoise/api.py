@@ -25,13 +25,8 @@ import numpy as np
 import pandas as pd
 import scipy as sp
 import scipy.signal as ss
-if sp.__version__ < "1.4.0":
-    import scipy.fftpack as sf
-    from scipy.fftpack.helper import next_fast_len
-    import scipy.fftpack._fftpack as sff
-else:
-    import scipy.fft as sf
-    from scipy.fft import next_fast_len
+import scipy.fft as sf
+from scipy.fft import next_fast_len
 
 
 import scipy.optimize
