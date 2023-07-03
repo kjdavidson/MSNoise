@@ -169,7 +169,7 @@ def main(loglevel="INFO"):
                                     os.makedirs(outfolder)
                                 outfolders.append(outfolder)
                             np.savetxt(os.path.join(outfolder, "%s.txt" % str(day)), output)
-                            clean_scipy_cache()
+                            #clean_scipy_cache()
                             del output, cur
 
         # THIS SHOULD BE IN THE API

@@ -141,7 +141,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         try:
                             # print("Reading %s" % file)
                             # t=  time.time()
-                            st = read(file, dytpe=np.float,
+                            st = read(file, dtype=np.float64,
                                       starttime=UTCDateTime(gd),
                                       endtime=UTCDateTime(gd)+86400,
                                       station=sta,
@@ -163,7 +163,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                     else:
                         st = tmp
                     for tr in st:
-                        tr.data = tr.data.astype(np.float)
+                        tr.data = tr.data.astype(np.float64)
                         tr.stats.network = tr.stats.network.upper()
                         tr.stats.station = tr.stats.station.upper()
                         tr.stats.channel = tr.stats.channel.upper()
@@ -301,6 +301,6 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                 output += stream
                 del stream
             del files
-    clean_scipy_cache()
+    #clean_scipy_cache()
     del MULTIPLEX_files
     return output

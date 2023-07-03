@@ -457,7 +457,7 @@ def main(loglevel="INFO"):
 
             logger.info("Finished processing this pair. It took %.2f seconds" % (time.time() - tt))
         massive_update_job(db, jobs, "D")
-        clean_scipy_cache()
+        #clean_scipy_cache()
 
         logger.info("Job Finished. It took %.2f seconds (preprocess: %.2f s & process %.2f s)" % ((time.time() - jt), start_processing-jt, time.time()-start_processing))
         del stream
