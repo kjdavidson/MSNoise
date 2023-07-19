@@ -117,7 +117,7 @@ def connect(inifile=None):
 
 
 def create_database_inifile(tech, hostname, database, username, password,
-                            prefix=""):
+                            filename="db.ini", prefix=""):
     """Creates the db.ini file based on supplied parameters.
 
     :type tech: int
@@ -136,7 +136,7 @@ def create_database_inifile(tech, hostname, database, username, password,
 
     :return: None
     """
-    f = open(os.path.join(os.getcwd(), 'db.ini'), 'wb')
+    f = open(os.path.join(os.getcwd(), filename), 'wb')
     cPickle.dump([tech, hostname, database, username, password, prefix], f,
                  protocol=2)
     f.close()
