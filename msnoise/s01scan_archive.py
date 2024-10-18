@@ -67,6 +67,7 @@ import glob
 import logging
 import multiprocessing
 import obspy
+import kdphd.strypy
 import os
 import re
 import sys
@@ -184,7 +185,12 @@ def scan_data_files(db, folder, files, startdate, enddate, goal_sampling_rate,
         try:
             # Note: if format is None or unknown, obspy will use auto-detection.
             # See https://docs.obspy.org/packages/autogen/obspy.core.stream.read.html
-            stream = obspy.core.read(pathname, headonly=True, format=archive_format or None)
+            
+            ## KD bit here for reading Stryde files
+            if api.get_config(db, name='archive_format') == 'Stryde':
+                stream = kdphd.strypy.read_stryde(pathname)
+            else:         
+                stream = obspy.core.read(pathname, headonly=True, format=archive_format or None)
             for id in set([t.id for t in stream]):
                 update_rv = process_stream(db, folder, basename, stream, id,
                                            startdate, enddate,
@@ -195,10 +201,10 @@ def scan_data_files(db, folder, files, startdate, enddate, goal_sampling_rate,
                     modified += 1
                 else:
                     unchanged += 1
-        except obspy.io.mseed.ObsPyMSEEDFilesizeTooSmallError as e:
-            logger.warning("Ignoring possible empty file '%s'."
-                           ' Got error %s: %s' %
-                           (pathname, e.__class__.__name__, str(e)))
+        #except obspy.io.mseed.ObsPyMSEEDFilesizeTooSmallError as e:
+        #    logger.warning("Ignoring possible empty file '%s'."
+        #                   ' Got error %s: %s' %
+        #                   (pathname, e.__class__.__name__, str(e)))
         except OSError as e:
             # This should catch errors about file accesses
             logger.error("Error while processing file '%s': %s" %
