@@ -121,6 +121,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                             
                             # KD - Stryde stuff
                             if api.get_config(db, name='archive_format') == 'Stryde':
+                                print("reading stryde files")
                                 _ = read_stryde(fn)
                             else:
                                 _ = read(fn, format=params.archive_format or None)
