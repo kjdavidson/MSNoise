@@ -38,8 +38,6 @@ import traceback
 
 from obspy.core import UTCDateTime, Stream, read
 
-import kdphd.strypy
-
 try:
     from scikits.samplerate import resample
 except:
@@ -99,7 +97,6 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
         gd = datetime.datetime.strptime(goal_day, '%Y-%m-%d')
         files = get_data_availability(
             db, net=net, sta=sta, starttime=gd, endtime=gd)
-        print(files)
         for comp in comps:
             datafiles[station][comp] = []
         for file in files:
@@ -119,13 +116,8 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                             _ = MULTIPLEX_files[fn]
                         else:
                             # print("Reading %s" % fn)
-                            
-                            # KD - Stryde stuff
-                            if api.get_config(db, name='archive_format') == 'Stryde':
-                                print("reading stryde files")
-                                _ = read_stryde(fn)
-                            else:
-                                _ = read(fn, format=params.archive_format or None)
+                            #_ = read(fn, format=params.archive_format or None)
+                            _ = read_stryde(fn)
                             traces = []
                             for tr in _:
                                 if "%s.%s" % (tr.stats.network, tr.stats.station) in stations and tr.stats.channel[-1] in comps:
@@ -150,16 +142,14 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         try:
                             # print("Reading %s" % file)
                             # t=  time.time()
-                            
-                            # KD Stryde stuff
-                            if api.get_config(db, name='archive_format') == 'Stryde':
-                                st = read_stryde(file)
-                            else:
-                                st = read(file, dtype=np.float64,
-                                      starttime=UTCDateTime(gd),
-                                      endtime=UTCDateTime(gd)+86400,
-                                      station=sta,
-                                      format=params.archive_format or None)
+                            #KD
+                            print("Read stryde file?")
+                            st = read_stryde(file)
+                            # st = read(file, dtype=np.float64,
+                            #           starttime=UTCDateTime(gd),
+                            #           endtime=UTCDateTime(gd)+86400,
+                            #           station=sta,
+                            #           format=params.archive_format or None)
                             # print("done in", time.time()-t)
                         except:
                             logger.debug("ERROR reading file %s" % file)
