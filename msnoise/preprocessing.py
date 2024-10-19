@@ -99,6 +99,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
         gd = datetime.datetime.strptime(goal_day, '%Y-%m-%d')
         files = get_data_availability(
             db, net=net, sta=sta, starttime=gd, endtime=gd)
+        print(files)
         for comp in comps:
             datafiles[station][comp] = []
         for file in files:
