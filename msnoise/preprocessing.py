@@ -38,6 +38,8 @@ import traceback
 
 from obspy.core import UTCDateTime, Stream, read
 
+import kdphd.strypy
+
 try:
     from scikits.samplerate import resample
 except:
@@ -116,7 +118,12 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                             _ = MULTIPLEX_files[fn]
                         else:
                             # print("Reading %s" % fn)
-                            _ = read(fn, format=params.archive_format or None)
+                            
+                            # KD - Stryde stuff
+                            if api.get_config(db, name='archive_format') == 'Stryde':
+                                _ = read_stryde(fn)
+                            else:
+                                _ = read(fn, format=params.archive_format or None)
                             traces = []
                             for tr in _:
                                 if "%s.%s" % (tr.stats.network, tr.stats.station) in stations and tr.stats.channel[-1] in comps:
@@ -141,7 +148,12 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         try:
                             # print("Reading %s" % file)
                             # t=  time.time()
-                            st = read(file, dtype=np.float64,
+                            
+                            # KD Stryde stuff
+                            if api.get_config(db, name='archive_format') == 'Stryde':
+                                st = read_stryde(file)
+                            else:
+                                st = read(file, dtype=np.float64,
                                       starttime=UTCDateTime(gd),
                                       endtime=UTCDateTime(gd)+86400,
                                       station=sta,
