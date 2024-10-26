@@ -146,7 +146,9 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                             t =  time.time()
                             #KD
                             #print("Read stryde file?")
-                            st = strypy.read_stryde(file)
+                            st = strypy.read_stryde(file,
+                                                    starttime=UTCDateTime(gd),
+                                                    endtime=UTCDateTime(gd)+86400)
                             print(st)
                             # st = read(file, dtype=np.float64,
                             #           starttime=UTCDateTime(gd),
