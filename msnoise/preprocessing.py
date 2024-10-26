@@ -157,7 +157,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         except:
                             logger.debug("ERROR reading file %s" % file)
                             # TODO add traceback (optional?)
-                            continue
+                            break
                     for tr in st:
                         if len(tr.stats.channel) == 2:
                             tr.stats.channel += tr.stats.location
