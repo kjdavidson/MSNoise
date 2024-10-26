@@ -142,8 +142,8 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         st = file.select(network=net, station=sta, component=comp).copy()
                     else:
                         try:
-                            # print("Reading %s" % file)
-                            # t=  time.time()
+                            print("Reading %s" % file)
+                            t =  time.time()
                             #KD
                             #print("Read stryde file?")
                             st = strypy.read_stryde(file)
@@ -157,7 +157,7 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         except:
                             logger.debug("ERROR reading file %s" % file)
                             # TODO add traceback (optional?)
-                            break
+                            continue
                     for tr in st:
                         if len(tr.stats.channel) == 2:
                             tr.stats.channel += tr.stats.location
