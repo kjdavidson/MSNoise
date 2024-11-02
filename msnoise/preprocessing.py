@@ -142,20 +142,20 @@ def preprocess(db, stations, comps, goal_day, params, responses=None):
                         st = file.select(network=net, station=sta, component=comp).copy()
                     else:
                         try:
-                            print("Reading %s" % file)
+                            #print("Reading %s" % file)
                             t =  time.time()
                             #KD
                             #print("Read stryde file?")
                             st = strypy.read_stryde(file,
                                                     starttime=UTCDateTime(gd),
                                                     endtime=UTCDateTime(gd)+86400)
-                            print(st)
+                            #print(st)
                             # st = read(file, dtype=np.float64,
                             #           starttime=UTCDateTime(gd),
                             #           endtime=UTCDateTime(gd)+86400,
                             #           station=sta,
                             #           format=params.archive_format or None)
-                            print("done in", time.time()-t)
+                            #print("done in", time.time()-t)
                         except:
                             logger.debug("ERROR reading file %s" % file)
                             # TODO add traceback (optional?)
